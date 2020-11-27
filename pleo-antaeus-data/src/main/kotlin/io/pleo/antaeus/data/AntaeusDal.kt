@@ -55,7 +55,7 @@ class AntaeusDal(private val db: Database) {
     }
 
     //update a single invoice status to paid
-    fun updateInvoicePaidStatus(invoiceId:Int){
+    fun updateInvoicePaidStatus(invoiceId:Int):Any{
         // transaction(db) runs the internal query as a new database transaction.
          return transaction(db) {
             //fetch unpaid invoices
