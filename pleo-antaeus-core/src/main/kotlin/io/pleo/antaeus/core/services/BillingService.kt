@@ -83,7 +83,7 @@ class BillingService(
             val (id, customerId) = invoice
 
             //mock charge invoice
-            val isCharged = paymentProvider.charge(invoice);
+            val isCharged = paymentProvider.charge(invoice)
 
             //update invoice for customer in database
             if(isCharged){
