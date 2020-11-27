@@ -20,4 +20,26 @@ class InvoiceServiceTest {
             invoiceService.fetch(404)
         }
     }
+
+    @Test
+    fun `will successfully count unpaid invoices`(){
+        //implement when done
+    }
+
+    @Test
+    fun `will successfully retrieve unpaid invoices in batches`(){
+        //implement when done
+    }
+
+    @Test
+    fun `will throw if no invoice Id is provided for invoice status update`(){
+        //implement when done
+    }
+
+    @Test
+    fun `will update invoice status to paid`(){
+
+    }
+
+
 }
