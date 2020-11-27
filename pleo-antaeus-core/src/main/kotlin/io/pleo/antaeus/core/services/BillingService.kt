@@ -160,8 +160,9 @@ class FailedInvoicePaymentReminderJob : Job {
 
 /**
  * Invoice Job Scheduler creates a job for scheduling invoices every
- * 6th,12,18 hour of the first day of the month
+ * 5th,10,15 hour of the first day of the month
  * To ensure success, trigger three times in the day before failing
+ * Created a fourth schedule to send failed payment notifications to customers.
  */
 class InvoiceJobScheduler(private val billingService: BillingService) {
     fun scheduleJob() {
