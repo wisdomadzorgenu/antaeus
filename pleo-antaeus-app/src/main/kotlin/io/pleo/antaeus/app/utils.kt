@@ -5,8 +5,12 @@ import io.pleo.antaeus.models.Currency
 import io.pleo.antaeus.models.Invoice
 import io.pleo.antaeus.models.InvoiceStatus
 import io.pleo.antaeus.models.Money
+import java.io.File
 import java.math.BigDecimal
+import java.nio.file.Path
+import java.nio.file.Paths
 import kotlin.random.Random
+
 
 // This will create all schemas and setup initial data
 internal fun setupInitialData(dal: AntaeusDal) {
@@ -37,4 +41,46 @@ internal fun getPaymentProvider(): PaymentProvider {
                 return Random.nextBoolean()
         }
     }
+}
+
+//this creates database directory instead of using temp
+internal fun createDatabaseDirectory(){
+    try {
+        //get database app path
+        val dirName: String = Paths.get("", "database").toAbsolutePath().toString()
+
+        val directory = File(dirName)
+
+        //only create directory if does not exist
+        if (!directory.exists()) {
+            directory.mkdir()
+        }
+    }catch (e:Exception){
+        //do nothing
+    }
+}
+
+//this creates an sqlite file or reads if exists
+internal fun getDatabaseFile():File {
+    var dbFile: File = File("")
+
+    try {
+        val dbFileName: String = "antaeus-db.sqlite"
+
+        //get database app path
+        val dbFilePath: String = Paths.get("", "database", dbFileName).toAbsolutePath().toString()
+
+        dbFile = File(dbFilePath)
+
+        //only create directory if does not exist
+        if (!dbFile.exists()) {
+            dbFile.createNewFile();
+            dbFile = File(dbFilePath)
+        }
+    }
+    catch (e:Exception){
+        //do nothing
+    }
+
+    return dbFile;
 }
