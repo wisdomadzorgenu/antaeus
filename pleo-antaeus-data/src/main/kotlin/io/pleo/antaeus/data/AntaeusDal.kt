@@ -12,13 +12,20 @@ import io.pleo.antaeus.models.Customer
 import io.pleo.antaeus.models.Invoice
 import io.pleo.antaeus.models.InvoiceStatus
 import io.pleo.antaeus.models.Money
-import org.jetbrains.exposed.sql.Database
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.selectAll
+import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class AntaeusDal(private val db: Database) {
+    fun countUnpaidInvoices():Int{
+        // transaction(db) runs the internal query as a new database transaction.
+        return transaction(db) {
+            //count unpaid invoices
+             InvoiceTable
+                .select { InvoiceTable.status.eq(InvoiceStatus.PENDING.toString())}
+                .count()
+        }
+    }
+
     fun fetchInvoice(id: Int): Invoice? {
         // transaction(db) runs the internal query as a new database transaction.
         return transaction(db) {
@@ -29,6 +36,35 @@ class AntaeusDal(private val db: Database) {
                 ?.toInvoice()
         }
     }
+
+    fun fetchUnpaidInvoiceInBatches(lastInvoiceId:Int,limit:Int=1): List<Invoice> {
+        // transaction(db) runs the internal query as a new database transaction.
+        return transaction(db) {
+            //fetch unpaid invoices
+            var query = InvoiceTable
+                .select {InvoiceTable.status.eq(InvoiceStatus.PENDING.toString()) }
+
+                //if after invoice id is returned, select results after invoice id
+                if (lastInvoiceId > 0){
+                    query.andWhere {InvoiceTable.id.greater(lastInvoiceId)  }
+                }
+
+            query.limit(limit)
+            .map { it.toInvoice() }
+        }
+    }
+
+    //update a single invoice status to paid
+    fun updateInvoicePaidStatus(invoiceId:Int){
+        // transaction(db) runs the internal query as a new database transaction.
+         return transaction(db) {
+            //fetch unpaid invoices
+            InvoiceTable.update({InvoiceTable.id.eq(invoiceId)}){
+                it[this.status] = InvoiceStatus.PAID.toString()
+            }
+        }
+    }
+
 
     fun fetchInvoices(): List<Invoice> {
         return transaction(db) {
