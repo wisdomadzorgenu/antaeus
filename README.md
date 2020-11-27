@@ -2,17 +2,11 @@
 
 Antaeus (/ænˈtiːəs/), in Greek mythology, a giant of Libya, the son of the sea god Poseidon and the Earth goddess Gaia. He compelled all strangers who were passing through the country to wrestle with him. Whenever Antaeus touched the Earth (his mother), his strength was renewed, so that even if thrown to the ground, he was invincible. Heracles, in combat with him, discovered the source of his strength and, lifting him up from Earth, crushed him to death.
 
-Welcome to our challenge.
+### Implementation Overview
+I chose Quartz Scheduler to handle scheduling of the invoice payments as it is an open source job scheduling library that can be integrated within virtually any Java/Kotlin application.
+Quartz can be used to create simple or complex schedules for executing tens, hundreds, or even tens-of-thousands of jobs;
+Quartz offers job scheduling through patterns like cron-jobs available in unix systems. This is a great way of leveraging existing cron-job documentations as a quick guide.
 
-## The challenge
-
-As most "Software as a Service" (SaaS) companies, Pleo needs to charge a subscription fee every month. Our database contains a few invoices for the different markets in which we operate. Your task is to build the logic that will schedule payment of those invoices on the first of the month. While this may seem simple, there is space for some decisions to be taken and you will be expected to justify them.
-
-## Instructions
-
-Fork this repo with your solution. Ideally, we'd like to see your progression through commits, and don't forget to update the README.md to explain your thought process.
-
-Please let us know how long the challenge takes you. We're not looking for how speedy or lengthy you are. It's just really to give us a clearer idea of what you've produced in the time you decided to take. Feel free to go as big or as small as you want.
 
 ## Developing
 
@@ -84,5 +78,4 @@ The code given is structured as follows. Feel free however to modify the structu
 * [JUnit 5](https://junit.org/junit5/) - Testing framework
 * [Mockk](https://mockk.io/) - Mocking library
 * [Sqlite3](https://sqlite.org/index.html) - Database storage engine
-
-Happy hacking 😁!
+* [Quartz](http://www.quartz-scheduler.org) - Quartz Scheduler
