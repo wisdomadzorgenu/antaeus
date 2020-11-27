@@ -9,8 +9,6 @@ import org.quartz.JobBuilder.newJob
 import org.quartz.TriggerBuilder.newTrigger
 import org.quartz.impl.StdSchedulerFactory
 import java.nio.file.Path
-import java.text.SimpleDateFormat
-import java.util.*
 import java.nio.file.Paths
 import kotlinx.coroutines.*
 import org.quartz.Job
@@ -136,6 +134,8 @@ class InvoiceJob : Job {
         val dataMap = context.jobDetail.jobDataMap
         val billingService:BillingService = dataMap["billingService"] as BillingService
 
+        println("Processing invoices")
+
         //process invoices by attempting payment
         billingService.processInvoices("process");
     }
@@ -150,6 +150,8 @@ class FailedInvoicePaymentReminderJob : Job {
     override fun execute(context: JobExecutionContext) {
         val dataMap = context.jobDetail.jobDataMap
         val billingService:BillingService = dataMap["billingService"] as BillingService
+
+        println("Processing failed invoice reminders")
 
         //process invoices by sending emails
         billingService.processInvoices("email");
@@ -190,12 +192,12 @@ class InvoiceJobScheduler(private val billingService: BillingService) {
             //TO ENSURE ALL PAYMENTS ARE SUCCESSFUL,
             // ATTEMPT PAYING INVOICE AT LEAST THREE TIMES BEFORE FAIL
             // fire on the 1th day of every month at 5:00am,10:00am,15:00 local timezone
-            // val processInvoiceCron = cronSchedule("0 0 5,10,15 1 * ?")
-            // val notifyCustomerCron = cronSchedule("0 0 20 1 * ?")
+            val processInvoiceCron = cronSchedule("0 0 5,10,15 1 * ?")
+            val notifyCustomerCron = cronSchedule("0 0 20 1 * ?")
 
             //for testing set to every minute for payment processing
-            val processInvoiceCron = cronSchedule("0 * * * * ?")
-            val notifyCustomerCron = cronSchedule("0 */5 * * * ?")
+            // val processInvoiceCron = cronSchedule("0 * * * * ?")
+            // val notifyCustomerCron = cronSchedule("0 */5 * * * ?")
 
             //process invoice trigger
             val processInvoiceTrigger = newTrigger()
