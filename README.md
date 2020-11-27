@@ -69,7 +69,7 @@ In the real world, at least two microservices should exist to prevent any single
 Managing jobs is handled in RAM as configured in quartz.properties for this small use case. In a real server environment where lots of schedules may exist, storing information about jobs in a database will be ideal as system administrators can easily monitor the health and status of the jobs as well as manually retry for missed jobs.
 
 ### Length of Project
-I did not know Kotlin, to begin with, so it took me a day to quickly learn the basics of Kotlin and to be up and running as well know my way around the codebase of this challenge. It took me 8hrs to complete the task and update the challenge’s readme.
+I did not know Kotlin, to begin with, so it took me a day to quickly learn the basics of Kotlin and to be up and running as well know my way around the codebase of this challenge. It took me 10hrs to complete the task and update the challenge’s readme.
 
 ### Running Tests
 ```sh
