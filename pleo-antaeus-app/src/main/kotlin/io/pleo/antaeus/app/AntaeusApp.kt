@@ -10,6 +10,7 @@ package io.pleo.antaeus.app
 import getPaymentProvider
 import io.pleo.antaeus.core.services.BillingService
 import io.pleo.antaeus.core.services.CustomerService
+import io.pleo.antaeus.core.services.InvoiceJobScheduler
 import io.pleo.antaeus.core.services.InvoiceService
 import io.pleo.antaeus.data.AntaeusDal
 import io.pleo.antaeus.data.CustomerTable
@@ -41,9 +42,9 @@ fun main() {
             transaction(it) {
                 addLogger(StdOutSqlLogger)
                 // Drop all existing tables to ensure a clean slate on each run
-                SchemaUtils.drop(*tables)
+//                SchemaUtils.drop(*tables)
                 // Create all tables
-                SchemaUtils.create(*tables)
+//                SchemaUtils.create(*tables)
             }
         }
 
@@ -51,7 +52,7 @@ fun main() {
     val dal = AntaeusDal(db = db)
 
     // Insert example data in the database.
-    setupInitialData(dal = dal)
+//    setupInitialData(dal = dal)
 
     // Get third parties
     val paymentProvider = getPaymentProvider()
@@ -60,8 +61,16 @@ fun main() {
     val invoiceService = InvoiceService(dal = dal)
     val customerService = CustomerService(dal = dal)
 
-    // This is _your_ billing service to be included where you see fit
-    val billingService = BillingService(paymentProvider = paymentProvider)
+    //Include customer and invoice services
+    val billingService = BillingService(
+        paymentProvider = paymentProvider,
+        invoiceService = invoiceService,
+        customerService = customerService
+    )
+
+    //pass billing service to invoice scheduler and run
+    val invoiceScheduler = InvoiceJobScheduler(billingService=billingService)
+    invoiceScheduler.scheduleJob()
 
     // Create REST web service
     AntaeusRest(
