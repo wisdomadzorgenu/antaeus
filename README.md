@@ -55,6 +55,14 @@ To ensure every unpaid invoice is processed:
 
 `Implementing this way ensures that even after updating invoice status, previously failed invoice payments are not retrieved. Only results after the last processed are retrieved.`
 
+### Mock Functions
+ - sendCustomerPaymentNotification
+ - sendCustomerFailedPaymentNotification
+ 
+ 
+The email notification handlers are mock functions which I assume are implemented and will be plugged in. However, to ensure functionality works I return true.
+
+ 
 ### Scaling
 In the real world, at least two microservices should exist to prevent any single point of failure. One service handles RESTful services and the second for monthly invoice processing.
 
