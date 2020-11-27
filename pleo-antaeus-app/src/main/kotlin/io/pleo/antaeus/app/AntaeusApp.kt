@@ -8,6 +8,7 @@
 package io.pleo.antaeus.app
 
 import createDatabaseDirectory
+import deleteDbFile
 import getDatabaseFile
 import getPaymentProvider
 import io.pleo.antaeus.core.services.BillingService
@@ -22,7 +23,6 @@ import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.TransactionManager
 import org.jetbrains.exposed.sql.transactions.transaction
 import setupInitialData
-import java.io.File
 import java.sql.Connection
 
 fun main() {
@@ -34,9 +34,6 @@ fun main() {
 
     //prevent creating file every time server runs, create one sqlite file in database directory
     val dbFile = getDatabaseFile()
-
-    //a new file will have lest than 10 byte
-    val isNewDBFile = dbFile.length() < 10
 
     // Connect to the database and create the needed tables. Drop any existing data.
     val db = Database
@@ -50,22 +47,18 @@ fun main() {
                 addLogger(StdOutSqlLogger)
 
                 //only drop and recreate if new file
-                if(isNewDBFile){
-                    // Drop all existing tables to ensure a clean slate
-                    SchemaUtils.drop(*tables)
-                    // Create all tables
-                    SchemaUtils.create(*tables)
-                }
+                // Drop all existing tables to ensure a clean slate
+                SchemaUtils.drop(*tables)
+                // Create all tables
+                SchemaUtils.create(*tables)
             }
         }
 
     // Set up data access layer.
     val dal = AntaeusDal(db = db)
 
-    // Insert example data in the database if new file
-    if(isNewDBFile){
-        setupInitialData(dal = dal)
-    }
+    // Insert example data in the database
+    setupInitialData(dal = dal)
 
     // Get third parties
     val paymentProvider = getPaymentProvider()

@@ -84,3 +84,22 @@ internal fun getDatabaseFile():File {
 
     return dbFile;
 }
+
+internal fun deleteDbFile(){
+    try {
+        val dbFileName: String = "antaeus-db.sqlite"
+
+        //get database app path
+        val dbFilePath: String = Paths.get("", "database", dbFileName).toAbsolutePath().toString()
+
+        val dbFile:File = File(dbFilePath)
+
+        //delete db file
+        if (dbFile.exists()) {
+            dbFile.delete()
+        }
+    }
+    catch (e:Exception){
+        //do nothing
+    }
+}
