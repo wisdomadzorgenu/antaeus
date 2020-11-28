@@ -12,8 +12,8 @@ import deleteDbFile
 import getDatabaseFile
 import getPaymentProvider
 import io.pleo.antaeus.core.services.BillingService
-import io.pleo.antaeus.core.services.CustomerService
 import io.pleo.antaeus.core.services.InvoiceJobScheduler
+import io.pleo.antaeus.core.services.CustomerService
 import io.pleo.antaeus.core.services.InvoiceService
 import io.pleo.antaeus.data.AntaeusDal
 import io.pleo.antaeus.data.CustomerTable
