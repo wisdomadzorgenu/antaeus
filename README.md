@@ -9,6 +9,7 @@ Quartz can be used to create simple or complex schedules for executing tens, hun
 
 
 ### Major Changes
+ - Created a JobSchedulerService.kt to handle all job scheduling operations.
  - Added Quartz dependency in Antaeus core module.
  - Created a quartz.properties configuration file under Gradle directory.
  - Created Invoice Job Scheduler with quartz and added cron triggers to execute the payment of invoices and send notifications for failed payments.
@@ -19,7 +20,6 @@ Quartz can be used to create simple or complex schedules for executing tens, hun
  - Added new methods for notifying customers of successful payment or failed ones.
  - Implemented the logic for notifying customers of failed invoice payments.
  
-
 ### Invoice Scheduling
  - I configured the scheduler to execute every 5th, 10th, and 15th hour of the first day of every month.
  - I provided a 5-hour gap between schedules to ensure invoice processing is complete before the next cycle. In real production environments, multiple servers handle processing to speed up the process.
@@ -69,7 +69,7 @@ In the real world, at least two microservices should exist to prevent any single
 Managing jobs is handled in RAM as configured in quartz.properties for this small use case. In a real server environment where lots of schedules may exist, storing information about jobs in a database will be ideal as system administrators can easily monitor the health and status of the jobs as well as manually retry for missed jobs.
 
 ### Length of Project
-I did not know Kotlin, to begin with, so it took me a day to quickly learn the basics of Kotlin and to be up and running as well know my way around the codebase of this challenge. It took me 10hrs to complete the task and update the challenge’s readme.
+I did not know Kotlin, to begin with, so it took me a day to quickly learn the basics of Kotlin and to be up and running as well know my way around the codebase of this challenge. It took me 11hrs to complete the task and update the challenge’s readme.
 
 ### Running Tests
 ```sh
